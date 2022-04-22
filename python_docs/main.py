@@ -73,7 +73,7 @@ def scrape_pydocs() -> None:
             texts.append(para.text)
         for component in page.select(".highlight"):
             codes.append(component.text)
-        for component in page.select("body p"):
+        for component in page.select(".body p"):
             texts.append(component.text)
         data["texts"] = texts
         data["codeBlocks"] = codes
