@@ -60,21 +60,21 @@ def scrape_pydocs() -> None:
     f = 0
 
     def scrape_sub_page(
-        page: BeautifulSoup, 
+        page: BeautifulSoup,
         url: str
     ) -> Dict:
         p = 0
         f = 0
         data = {}
-        texts = []
+        texts = ""
         codes = []
         paras = page.select("div.body > section > p")
         for para in paras:
-            texts.append(para.text)
+            texts += para.text
         for component in page.select(".highlight"):
-            codes.append(component.text)
-        for component in page.select(".body p"):
-            texts.append(component.text)
+            texts += component.text
+        # for component in page.select(".body p"):
+        #     texts.append(component.text)
         data["texts"] = texts
         data["codeBlocks"] = codes
         children = []
@@ -88,8 +88,8 @@ def scrape_pydocs() -> None:
                     f"Failure ---- Problem scraping sub page {sub_text}. Status : {sub_status}"
                 )
                 continue
-            
-            g_data, gp, gf =  scrape_sub_page(sub_page, sub_url)
+
+            g_data, gp, gf = scrape_sub_page(sub_page, sub_url)
             p += gp
             f += gf
             children.append(
@@ -125,7 +125,7 @@ def scrape_pydocs() -> None:
                             f"Failure ---- Problem scraping sub page {sub_text}. Status : {sub_status}"
                         )
                         continue
-                    
+
                     g_data, gp, gf = scrape_sub_page(sub_page, sub_url)
                     p += gp
                     f += gf
